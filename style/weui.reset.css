@@ -1,0 +1,90 @@
+.weui-cells a:link,
+.weui-cells a:hover,
+.weui-cells a:active,
+.weui-cells a:visited {
+    color: #000 !important;
+    text-decoration: none!important;
+}
+a:link,
+a:hover,
+a:active,
+a:visited {
+    text-decoration: none!important;
+}
+
+p {
+    margin: 0;
+}
+
+.weui-grid__icon {
+    font-size: 25px;
+    line-height: 25px;
+}
+
+.weui-cell {
+    font-size: 15px;
+}
+
+.weui-cell__hd {
+    color: #999;
+}
+
+.weui-tabbar__icon {
+    line-height: 27px;
+}
+
+/*topbar*/
+.topbar {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    position: relative;
+    font-size:20px;
+    background-color: #fff;
+}
+.topbar.topbar-bottom-border{
+    border-bottom: 1px solid #CCC;
+}
+.topbar.topbar-bottom-margin{
+    margin-bottom: 15px;
+}
+.topbar.topbar-bg{
+    background-color: #FFF;
+}
+.topbar .topbar-btn-left{
+    position: absolute;left: 15px; top: 15px;
+}
+.topbar .topbar-btn-right{
+    position: absolute;right: 15px; top: 15px;margin-top: 0;
+}
+
+/*weui-grid*/
+/*外部填充*/
+.mygrid{
+    padding:12px 0px;
+    border-bottom:1px solid #ddd;
+}
+/*上边框*/
+.mygrid.weui-grids:before{
+    border-top: 0px solid #d9d9d9;
+}
+/*左边框*/
+.mygrid.weui-grids:after{
+    border-left:0px solid #d9d9d9;
+}
+/*右边框*/
+.mygrid .weui-grid:before{
+    border-right: 1px solid #d9d9d9;
+}
+/*下边框*/
+.mygrid .weui-grid:after{
+    border-bottom: 0px solid #d9d9d9;
+}
+/*单个框的右边框*/
+.cellgrid.weui-grid:before{
+    border-right: 0px solid #d9d9d9;
+}
+/*内部填充*/
+.mygrid .weui-grid{
+    padding:0;
+}

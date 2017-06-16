@@ -1,0 +1,76 @@
+body{
+    background: #EEE;
+}
+.table-responsive{
+    border: none;
+}
+.lcr-list h3{
+    margin:5px auto 15px 10px;
+}
+.lcr-list .lcr-list-icon{
+    font-size: 14px;
+}
+.lcr-list .lcr-list-badge{
+    font-size: 10px; background: #fff;color: #5cb85c;
+}
+.lcr-list thead{
+    border-top: 1px solid #ccc;
+}
+
+.lcr-detail h3{
+    margin:5px auto 15px 0px;
+}
+.lcr-detail .lcr-detail-icon{
+    font-size: 14px;
+}
+.lcr-detail .lcr-detail-badge{
+    font-size: 10px; background: #fff;color: #5cb85c;
+}
+.lcr-detail form{
+    padding-top:15px;
+}
+.lcr-detail .submit{
+    margin-top: 20px;
+}
+header{
+    margin-bottom:60px;
+}
+footer{
+    margin-top:60px;
+}
+footer .navbar-default{
+    background: #3e4659;
+    color: #fff;
+    line-height: 50px;
+}
+footer img{
+    display: inline-block;
+    width:50px;
+}
+
+@media screen and (max-width: 768px) {
+    .main{
+        padding-left:0;
+        padding-right:0;
+    }
+}
+@media screen and (min-width: 768px) {
+    .lcr-nav{
+        float: right!important;
+    }
+}
+
+/*修改placehoder颜色*/
+.placeholderColor{}
+.placeholderColor::-webkit-input-placeholder {
+    color: #ff5858;
+}
+.placeholderColor:-moz-placeholder {
+    color: #ff5858;
+}
+.placeholderColor::-moz-placeholder{
+    color: #ff5858;
+}
+.placeholderColor:-ms-input-placeholder {
+    color: #ff5858;
+}
