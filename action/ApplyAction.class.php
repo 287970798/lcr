@@ -246,5 +246,6 @@ class ApplyAction extends Action
         $this->model->consultantId = $_POST['consultantId'];
         $this->model->region = $_POST['region'];
         $this->model->note = $_POST['note'];
+        $this->model->ext_phone = $_POST['ext_phone'];
     }
 }

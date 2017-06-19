@@ -22,6 +22,7 @@ class ApplyModel extends Model {
     private $consultantId;
 
     private $region;
+    private $ext_phone;
 
     //拦截器(__set)
     public function __set($key,$value){
@@ -317,6 +318,7 @@ class ApplyModel extends Model {
 				   		wechat = '$this->wechat',
 				   		status = '$this->status',
 				   		note = '$this->note',
+				   		ext_phone = '$this->ext_phone',
 				   		consultantId = '$this->consultantId',
 				   		region = '$this->region'
 				 WHERE

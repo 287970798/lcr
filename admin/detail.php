@@ -81,6 +81,10 @@
             <input type="text" class="form-control" name="phone" id="phone" placeholder="请输入手机号" value="<?php echo $object->phone;?>">
         </div>
         <div class="form-group">
+            <label for="ext_phone">营销电话</label>
+            <input type="text" class="form-control" name="ext_phone" id="ext_phone" placeholder="请输入营销电话" value="<?php echo $object->ext_phone;?>">
+        </div>
+        <div class="form-group">
             <label for="wechat">微信号</label>
             <input type="text" class="form-control" name="wechat" id="wechat" placeholder="请输入微信号" value="<?php echo $object->wechat;?>">
         </div>
