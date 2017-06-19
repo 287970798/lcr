@@ -82,6 +82,16 @@ class ApplyAction extends Action
         }
     }
 
+    //通过openid获取联创人信息
+    public function getOneFromOpenid(){
+        if (isset($_SESSION['wx']['openid'])){
+            $this->model->openid=$_SESSION['wx']['openid'];
+            $object=$this->model->getOneApplyFromOpenid();
+            return $object;
+        }
+        exit('openid不存在');
+    }
+
     //通过手机号检查申请人状态。状态为审核通过时则写入openid跳转到下级列表页
     public function checkPhone($url){
         if (isset($_POST['send'])){
