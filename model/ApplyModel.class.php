@@ -215,7 +215,8 @@ class ApplyModel extends Model {
 						wechat,
 						apply_time,
 						status,
-						ext_phone
+						ext_phone,
+						consultantId
 				  FROM
 				  		lcr_apply
 				  WHERE 

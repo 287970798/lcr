@@ -52,6 +52,12 @@ class ConsultantAction extends Action {
             Tool::alertBack('请选择顾问！');
         }
     }
+    //通过id获取单一
+    public function getOneFromId($id){
+        $this->model->id = $id;
+        $consultant = $this->model->getOne();
+        return $consultant;
+    }
     //修改
     public function update(){
 
