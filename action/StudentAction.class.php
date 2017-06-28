@@ -87,7 +87,108 @@ class StudentAction extends Action {
 
             $studentStreamSql = $streamM->addStreamSql();
 
-            $this->model->addStudent_t($sql2, $studentStreamSql) ? Tool::alertLocation('新增成功！', '.') : Tool::alertBack('新增失败！');
+            if($this->model->addStudent_t($sql2, $studentStreamSql)){
+
+                //优学顾问信息
+                $consultantM = new ConsultantModel();
+                $consultantM->id = $apply->consultantId;
+                $consultant = $consultantM->getConsultantOpenIdFromId();
+                $consultantOpenid = $consultant->openid;
+
+                //模板消息数组
+                $postArr1 = array(
+                    'touser' =>$consultantOpenid,
+                    'template_id' => 'jFJGq2mLqO8AQ5r7g725AaFHjIJDLRBsDT8olgavwmY',
+                    'data' => array(
+                        'first' => array(
+                            'value' => '用户 '.$apply->name.' 新录入了学员 ', 'color' => '#ff0000'
+                        ),
+                        'keyword1' => array(
+                            'value' => $this->model->name, 'color' => '#173177'
+                        ),
+                        'keyword2' => array(
+                            'value' => $this->model->phone, 'color' => '#173177'
+                        ),
+                        'keyword3' => array(
+                            'value' => date('Y-m-d i:m:s'), 'color' => '#173177'
+                        ),
+                        'remark' => array(
+                            'value' => '【优学汇】提醒您：请您及时关注并联系。【提示】：该用户优学顾问为：'.$consultant->name, 'color' => '#1d9d74'
+                        )
+                    )
+                );
+                $postArr2 = array(
+                    'touser' =>'oQiyJv25QmnHceul56pHMmXkpAmg',
+                    'template_id' => 'jFJGq2mLqO8AQ5r7g725AaFHjIJDLRBsDT8olgavwmY',
+                    'data' => array(
+                        'first' => array(
+                            'value' => '用户 '.$apply->name.' 新录入了学员 ', 'color' => '#ff0000'
+                        ),
+                        'keyword1' => array(
+                            'value' => $this->model->name, 'color' => '#173177'
+                        ),
+                        'keyword2' => array(
+                            'value' => $this->model->phone, 'color' => '#173177'
+                        ),
+                        'keyword3' => array(
+                            'value' => date('Y-m-d i:m:s'), 'color' => '#173177'
+                        ),
+                        'remark' => array(
+                            'value' => '【优学汇】提醒您：请您及时关注并联系。【提示】：该用户优学顾问为：'.$consultant->name, 'color' => '#1d9d74'
+                        )
+                    )
+                );
+                $postArr3 = array(
+                    'touser' =>'oQiyJvwCM_DIPw2g9LPWiwkqUYSw',
+                    'template_id' => 'jFJGq2mLqO8AQ5r7g725AaFHjIJDLRBsDT8olgavwmY',
+                    'data' => array(
+                        'first' => array(
+                            'value' => '用户 '.$apply->name.' 新录入了学员 ', 'color' => '#ff0000'
+                        ),
+                        'keyword1' => array(
+                            'value' => $this->model->name, 'color' => '#173177'
+                        ),
+                        'keyword2' => array(
+                            'value' => $this->model->phone, 'color' => '#173177'
+                        ),
+                        'keyword3' => array(
+                            'value' => date('Y-m-d i:m:s'), 'color' => '#173177'
+                        ),
+                        'remark' => array(
+                            'value' => '【优学汇】提醒您：请您及时关注并联系。【提示】：该用户优学顾问为：'.$consultant->name, 'color' => '#1d9d74'
+                        )
+                    )
+                );
+                $postArr4 = array(
+                    'touser' =>'oQiyJvzSADRRDjzTq5I60SgIClMI',
+                    'template_id' => 'jFJGq2mLqO8AQ5r7g725AaFHjIJDLRBsDT8olgavwmY',
+                    'data' => array(
+                        'first' => array(
+                            'value' => '用户 '.$apply->name.' 新录入了学员 ', 'color' => '#ff0000'
+                        ),
+                        'keyword1' => array(
+                            'value' => $this->model->name, 'color' => '#173177'
+                        ),
+                        'keyword2' => array(
+                            'value' => $this->model->phone, 'color' => '#173177'
+                        ),
+                        'keyword3' => array(
+                            'value' => date('Y-m-d i:m:s'), 'color' => '#173177'
+                        ),
+                        'remark' => array(
+                            'value' => '【优学汇】提醒您：请您及时关注并联系。【提示】：该用户优学顾问为：'.$consultant->name, 'color' => '#1d9d74'
+                        )
+                    )
+                );
+                new WXTemplateMsg($postArr1);
+                if ($apply->openid != 'oQiyJv25QmnHceul56pHMmXkpAmg') new WXTemplateMsg($postArr2);
+                if ($apply->openid != 'oQiyJvwCM_DIPw2g9LPWiwkqUYSw') new WXTemplateMsg($postArr3);
+                if ($apply->openid != 'oQiyJvzSADRRDjzTq5I60SgIClMI') new WXTemplateMsg($postArr4);
+                ///////////////////////////////////////////////////////////
+                Tool::alertLocation('新增成功！', '.');
+            }else{
+                Tool::alertBack('新增失败！');
+            }
         }
     }
 
