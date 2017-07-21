@@ -16,9 +16,9 @@
                 <i class="fa fa-graduation-cap weui-tabbar__icon"></i>
                 <p class="weui-tabbar__label">学员</p>
             </a>
-            <a href="<?php echo WEB_PATH;?>/getSub/" class="weui-tabbar__item <?php if ($nav == 'getsub') echo 'weui-bar__item_on';?>">
+            <a href="/yxh" class="weui-tabbar__item <?php if ($nav == 'yxh') echo 'weui-bar__item_on';?>">
                 <i class="fa fa-group weui-tabbar__icon"></i>
-                <p class="weui-tabbar__label">联创人</p>
+                <p class="weui-tabbar__label">优学汇</p>
             </a>
             <a href="<?php echo WEB_PATH;?>/point" class="weui-tabbar__item <?php if ($nav == 'point') echo 'weui-bar__item_on';?>">
                 <i class="fa fa-hourglass-2 weui-tabbar__icon"></i>

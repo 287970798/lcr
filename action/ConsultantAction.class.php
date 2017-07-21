@@ -26,7 +26,7 @@ class ConsultantAction extends Action {
 
     }
     //add
-    public function add(){
+    public function add($url='.'){
 
 
         if (Validate::checkNull($_POST['name'])) Tool::alertBack('姓名不得为空！');
@@ -35,7 +35,51 @@ class ConsultantAction extends Action {
         $this->model->name = $_POST['name'];
         $this->model->phone = $_POST['phone'];
         $this->model->wechat = $_POST['wechat'];
-        $this->model->add() ? Tool::alertLocation('成功！', '.') : Tool::alertBack('失败！');
+
+        //通过手机号检测该优学顾问是否为联创人
+        $applyM = new ApplyModel();
+        $applyM->phone = $_POST['phone'];
+        $apply = $applyM->getOneApplyFromPhone();
+        if (!$apply) Tool::alertBack('该人员不是联创人！');
+        //通过手机号检测该优学顾问是否已存在
+        $consultant = $this->model->getOneFromPhone();
+        if ($consultant) Tool::alertBack('系统已存在该优学顾问！');
+
+        if (isset($_POST['pid'])) $this->model->pid = $_POST['pid'];
+
+
+
+        $this->model->add() ? Tool::alertLocation('成功！', $url) : Tool::alertBack('失败！');
+    }
+    //获取所有下级优学顾问服务的联创人录入的学员
+    public function getSubApplysStudents($pid){
+        $this->model->pid = $pid;
+        $students = $this->model->getSubConsultantApplyStudent();
+        return $students;
+    }
+    //获取所胡下级优学顾问服务的联创人
+    public function getSubApplys($pid){
+        $this->model->pid = $pid;
+        $applys = $this->model->getSubConsultantApply();
+        return $applys;
+    }
+    //获取所有下级优学顾问服务的联创人录入的学员总数
+    public function getSubApplysStudentsCount($pid){
+        $this->model->pid = $pid;
+        $students = $this->model->getSubConsultantApplyStudentCount();
+        return $students;
+    }
+    //获取所胡下级优学顾问服务的联创人总数
+    public function getSubApplysCount($pid){
+        $this->model->pid = $pid;
+        $applys = $this->model->getSubConsultantApplyCount();
+        return $applys;
+    }
+    //获取所有下级优学顾问（代理商员工）
+    public function getStaffs($pid){
+        $this->model->pid = $pid;
+        $staffs = $this->model->getAllSubConsultants();
+        return $staffs;
     }
     //获取全部
     public function getAll(){
@@ -59,7 +103,7 @@ class ConsultantAction extends Action {
         return $consultant;
     }
     //修改
-    public function update(){
+    public function update($url='./detail.php'){
 
         $this->model->id = $_POST['id'];
 
@@ -70,12 +114,12 @@ class ConsultantAction extends Action {
         $this->model->phone = $_POST['phone'];
         $this->model->wechat = $_POST['wechat'];
 
-        $this->model->update() ? Tool::alertLocation('成功！', './detail.php?id='.$this->model->id) : Tool::alertBack('失败！');
+        $this->model->update() ? Tool::alertLocation('成功！', $url.'?id='.$this->model->id) : Tool::alertBack('失败！');
     }
     //删除
     public function delete(){
-        if (isset($_POST['id']) && !empty($_POST['id'])){
-            $this->model->id = $_POST['id'];
+        if (isset($_GET['id']) && !empty($_GET['id'])){
+            $this->model->id = $_GET['id'];
             echo $this->model->delete() ? '1' : '0';
         }
     }

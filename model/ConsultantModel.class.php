@@ -7,10 +7,12 @@
  * Time: 下午 3:31
  */
 class ConsultantModel extends Model {
-    private $id;
-    private $name;
-    private $phone;
-    private $wechat;
+    private $id;        //id
+    private $name;      //姓名
+    private $phone;     //手机号
+    private $wechat;    //微信号
+    private $isAgent;   //是否为代理商
+    private $pid;       //  上级优学顾问ID
 
     //拦截器(__set)
     public function __set($key,$value){
@@ -20,7 +22,164 @@ class ConsultantModel extends Model {
     public function __get($key){
         return $this->$key;
     }
-    //
+    //获取本人及下级所有优学顾问服务的联创人
+    //getSubConsultantApply
+    public function getSubConsultantApply(){
+        $sql = "SELECT
+                        a.*,
+                        IF(b.name<>'',b.name,'系统添加') AS parentName
+                  FROM
+                        (
+                            SELECT
+                                    *
+                              FROM
+                                    lcr_apply
+                             WHERE
+                                    consultantId 
+                                IN 
+                                    (
+                                      SELECT
+                                                id
+                                        FROM
+                                                lcr_consultants
+                                       WHERE
+                                                pid = '$this->pid'
+                                          OR
+                                                id = '$this->pid'
+                                    )
+                               AND
+                                    status = 1
+                        ) a
+             LEFT JOIN
+                        lcr_apply b
+                    ON 
+                        a.parent_id = b.id
+              ORDER BY
+                        id DESC
+                        ";
+        return parent::all($sql);
+    }
+    //获取本人及下级优学顾问服务的联创人录入的学员
+    public function getSubConsultantApplyStudent(){
+        $sql = "SELECT 
+                            *
+                      FROM
+                            lcr_students
+                     WHERE
+                            owner_id
+                        IN 
+                            (
+                                SELECT
+                                        id
+                                  FROM
+                                        lcr_apply
+                                 WHERE
+                                        consultantId 
+                                    IN 
+                                        (
+                                          SELECT
+                                                    id
+                                            FROM
+                                                    lcr_consultants
+                                           WHERE
+                                                    pid = '$this->pid'
+                                              OR
+                                                    id = '$this->pid'
+                                        )
+                                   AND
+                                        status = 1
+                            )
+                  ORDER BY
+                            id DESC ";
+        return parent::all($sql);
+    }
+    //获取本人及下级所有优学顾问服务的联创人总数
+    //getSubConsultantApply
+    public function getSubConsultantApplyCount(){
+        $sql = "SELECT
+                        a.id,
+                        count(a.id) as c
+                  FROM
+                        (
+                            SELECT
+                                    *
+                              FROM
+                                    lcr_apply
+                             WHERE
+                                    consultantId 
+                                IN 
+                                    (
+                                      SELECT
+                                                id
+                                        FROM
+                                                lcr_consultants
+                                       WHERE
+                                                pid = '$this->pid'
+                                          OR
+                                                id = '$this->pid'
+                                    )
+                               AND
+                                    status = 1
+                        ) a
+             LEFT JOIN
+                        lcr_apply b
+                    ON 
+                        a.parent_id = b.id
+              ORDER BY
+                        id DESC
+                        ";
+        return parent::one($sql);
+    }
+    //获取本人及下级优学顾问服务的联创人录入的学员总数
+    public function getSubConsultantApplyStudentCount(){
+        $sql = "SELECT 
+                            COUNT(id) as c
+                      FROM
+                            lcr_students
+                     WHERE
+                            owner_id
+                        IN 
+                            (
+                                SELECT
+                                        id
+                                  FROM
+                                        lcr_apply
+                                 WHERE
+                                        consultantId 
+                                    IN 
+                                        (
+                                          SELECT
+                                                    id
+                                            FROM
+                                                    lcr_consultants
+                                           WHERE
+                                                    pid = '$this->pid'
+                                              OR
+                                                    id = '$this->pid'
+                                        )
+                                   AND
+                                        status = 1
+                            )
+                  ORDER BY
+                            id DESC ";
+        return parent::one($sql);
+    }
+    //获取下级优学顾问
+    public function getAllSubConsultants(){
+        $sql = "SELECT
+                        id,
+                        name,
+                        phone,
+                        wechat,
+                        ctime
+                  FROM
+                        lcr_consultants
+                 WHERE
+                        pid = '$this->pid'";
+        return parent::all($sql);
+
+    }
+    //获取通过id优学顾问openid
     public function getConsultantOpenIdFromId(){
         $sql = "SELECT
                               a.name,
@@ -45,6 +204,18 @@ class ConsultantModel extends Model {
                  WHERE 
                         name = '$this->name' 
                    AND 
+                        phone = '$this->phone'
+                 LIMIT
+                        1";
+        return parent::one($sql);
+    }
+    //getOneFromPhone
+    public  function getOneFromPhone(){
+        $sql = "SELECT 
+                        * 
+                  FROM 
+                        lcr_consultants 
+                 WHERE  
                         phone = '$this->phone'
                  LIMIT
                         1";
@@ -82,14 +253,16 @@ class ConsultantModel extends Model {
                                                 name,
                                                 phone,
                                                 wechat,
-                                                ctime
+                                                ctime,
+                                                pid
                                               )
                      VALUES
                                               (
                                                 '$this->name',
                                                 '$this->phone',
                                                 '$this->wechat',
-                                                NOW()
+                                                NOW(),
+                                                '$this->pid'
                                               )";
         return parent::aud($sql);
     }
@@ -109,7 +282,7 @@ class ConsultantModel extends Model {
     }
 
     public function delete(){
-        $sql = "DELETE FORM
+        $sql = "DELETE FROM
                                 lcr_consultants
                       WHERE
                                 id = '$this->id'

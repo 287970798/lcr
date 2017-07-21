@@ -13,11 +13,16 @@ final class Tool{
 		}
 		exit;
 	}
-	//弹窗返回
-	static public function alertBack($info){
-		echo "<script type='text/javascript'>alert('$info');history.back();</script>";
-		exit;
-	}
+    //弹窗返回
+    static public function alertBack($info){
+        echo "<script type='text/javascript'>alert('$info');history.back();</script>";
+        exit;
+    }
+    //返回
+    static public function back(){
+        echo "<script type='text/javascript'>history.back();</script>";
+        exit;
+    }
 	//弹窗关闭
 	static public function alertClose($info){
 		echo "<script type='text/javascript'>alert('$info');close();</script>";

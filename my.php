@@ -1,6 +1,10 @@
 <?php
 session_start();
-//$_SESSION['apply_id'] = 9;
+$_SESSION['apply_id'] = 3;
+//if (isset($_SESSION['apply_id'])) {
+//    unset($_SESSION['apply_id']);
+//    session_destroy();
+//}
 require dirname(__FILE__) . '/init.inc.php';
 Validate::checkSession('apply_id', WEB_PATH.'/login.php');
 $apply_id = $_SESSION['apply_id'];
@@ -19,6 +23,18 @@ if ($object->consultantId){
     $_GET['id'] = $object->consultantId;
     $consultant = $consultantA->getOne();
 }
+
+//联创人是否为优学顾问及优学顾问主管（代理商）
+$consultantM = new ConsultantModel();
+$consultantM->name = $object->name;
+$consultantM->phone = $object->phone;
+$objectC = $consultantM->getOneFromNameAndPhone();
+$isAgent = false;
+if (!empty($objectC)) {
+    $isAgent = $objectC->isAgent;
+    if ($isAgent) $_SESSION['agent'] = $objectC;
+};
+
 $nav = 'index';
 ?>
 <!doctype html>
@@ -39,6 +55,26 @@ $nav = 'index';
     <style>
         #help h3{
             font-weight: bold;
+        }
+        .tips
+        {
+            margin:30px;
+            width:110px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+            background-color:#9bd5ff;
+            position:absolute;
+            left:-55px;
+            top:-20px;
+            font-size:12px;
+            font-weight: normal;
+            /* Rotate div */
+            transform:rotate(320deg);
+            -ms-transform:rotate(320deg); /* Internet Explorer */
+            -moz-transform:rotate(320deg); /* Firefox */
+            -webkit-transform:rotate(320deg); /* Safari 和 Chrome */
+            -o-transform:rotate(320deg); /* Opera */
         }
     </style>
 </head>
@@ -282,10 +318,16 @@ $nav = 'index';
     <h5 style="margin: 0 auto 5px; font-size: 20px;"><i class="fa fa-user-circle-o"></i></h5>
     <span class="label label-warning">优学顾问</span>
 </a>
-
+<?php if ($isAgent){?>
+<!--<a style="position: absolute; top: 40px;right: 0px; color: #FFF; background: #9bd5ff;padding: 1px 5px 1px 10px;border-top-left-radius: 15px;border-bottom-left-radius: 15px;" href="--><?php //echo WEB_PATH;?><!--/admin/consultantPanel/indexAdmin.php"><i class="fa fa-gear"></i> 管理</a>-->
+<?php }?>
 <div class="container-fluid" style="padding: 0 0 20px 0; color: #FFF;background:#5eb9ff url(images/arrow.png) repeat-x bottom;background-size: 5px; ">
-    <img src="<?php echo $object->wx_headimgurl;?>" alt="" class="img-circle center-block" style="width: 100px; height: 100px; margin-top: 20px;">
+    <img src="<?php echo $object->wx_headimgurl;?>" alt="" class="img-circle center-block" style="width: 100px; height: 100px; margin-top: 20px;z-index: 1!important;position: relative;">
+<!--    <div style="width: 100px; height: 50px; border-bottom: 5px solid #f0ad4e; border-bottom-left-radius: 100px; border-bottom-right-radius: 100px; background:transparent; z-index: 99999; margin-top: -50px;text-align: center;line-height: 60px;position: relative;color:#f0ad4e;font-weight: bold;" class="center-block">代理商</div>-->
     <div class="text-center"><?php echo $object->wx_nickname;?></div>
+    <?php if ($isAgent){?>
+    <div class="tips"><span class="glyphicon glyphicon-fire"></span> 联创团</div>
+    <?php }?>
 </div>
 <div class="weui-grids mygrid" style="background-color: #fff; padding-top: 20px; margin-bottom: 10px; letter-spacing: 1px;margin-top: -1px;">
     <a href="<?php echo WEB_PATH;?>/point" class="weui-grid" style="width: 50%;">
@@ -317,7 +359,7 @@ $nav = 'index';
         </p>
     </a>
     <a href="<?php echo WEB_PATH;?>/student/" class="weui-grid">
-        <div class="weui-grid__icon"  style="border-radius: 50%;width: 60px; height: 60px; line-height:60px;text-align: center; background: #5eb9ff;">
+        <div class="weui-grid__icon"  style="border-radius: 50%;width: 60px; height: 60px; line-height:63px;text-align: center; background: #5eb9ff;">
             <i class="fa fa-graduation-cap" style="color: #fff;"></i>
         </div>
         <p class="weui-grid__label" style="color: #444;">
@@ -325,7 +367,7 @@ $nav = 'index';
         </p>
     </a>
     <a href="<?php echo WEB_PATH;?>/project/" class="weui-grid cellgrid">
-        <div class="weui-grid__icon" style="border-radius: 50%;width: 60px; height: 60px; line-height:60px;text-align: center; background: #ed8d76;">
+        <div class="weui-grid__icon" style="border-radius: 50%;width: 60px; height: 60px; line-height:63px;text-align: center; background: #ed8d76;">
             <i class="fa fa-tasks" style="color: #fff;"></i>
         </div>
         <p class="weui-grid__label" style="color: #444;">
@@ -333,7 +375,9 @@ $nav = 'index';
         </p>
     </a>
 </div>
-
+<?php if ($isAgent){?>
+<a href="<?php echo WEB_PATH;?>/admin/lct/" class="btn btn-success btn-lg center-block" style="margin-bottom: 15px;width: 90%;background-color: #5eb9ff;border-color: #5eb9ff;"><i class="fa fa-group"></i> 联创团管理入口</a>
+<?php }?>
 <div class="container-fluid" style="background: #FFF;padding-bottom: 10px;">
     <div style="background: #fff;padding: 5px 10px;color: #999; letter-spacing: 1px;text-align: center">热门专题</div>
     <a href="images/2pointdetail.png"><img src="images/2point.png" alt="" style="width: 100%;margin-bottom: 10px"></a>

@@ -77,7 +77,9 @@ class ApplyAction extends Action
                         break;
                 }
             } else {
-                Tool::alert('第一次查询请输入申请时登记的手机号绑定微信！');
+//                Tool::alert('第一次查询请输入申请时登记的手机号绑定微信！');
+//                Tool::back();
+                header('location:../lcr/login.php?flag=back');
             }
         }
     }

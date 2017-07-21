@@ -61,7 +61,7 @@
 
 <div class="topbar">
     学员管理
-    <a href="../my.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-left">返回</a>
+    <a href="<?php echo WEB_PATH?>/admin/lct/" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-left">返回</a>
     <a href="add.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right"><i class="fa fa-user-plus""></i> 新增</a>
 </div>
 
