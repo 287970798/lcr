@@ -102,6 +102,13 @@ class ConsultantAction extends Action {
         $consultant = $this->model->getOne();
         return $consultant;
     }
+    //传入字段和值获取单一
+    public function one($field='id', $value=-1){
+        if ($field === null) $field = 'id';
+        $this->model->$field = $value;
+        $one = $this->model->getOneCounsultant($field);
+        return $one;
+    }
     //修改
     public function update($url='./detail.php'){
 

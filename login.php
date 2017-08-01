@@ -56,7 +56,7 @@ if(!isset($_GET['flag']) || $_GET['flag'] != 'back'){
     </nav>
 </header>
 <div class="container">
-    <form id="qrcodeForm" role="form" method="post" action="">
+    <form id="qrcodeForm" role="form" method="post" action="?">
         <div class="form-group">
             <label for="phone">手机号</label>
             <input type="text" class="form-control input-lg" name="phone" id="phone" placeholder="请输入手机号" value="<?php echo @$_COOKIE['phone']?>">

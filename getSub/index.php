@@ -1,9 +1,19 @@
 <?php
 session_start();
 require substr(dirname(__FILE__), 0, -7).'/init.inc.php';
+$_SESSION['apply_id'] = 300;
 Validate::checkSession('apply_id', WEB_PATH.'/login.php');
 $_GET['id'] = $_SESSION['apply_id'];
 $apply = new ApplyAction();
+
+//权限：是否为优学顾问，如果不是则跳转，是则显示列表///////
+$one = $apply->getOne(null,$_SESSION['apply_id']);
+if(!$one) Tool::alertLocation(null,'warning.php');
+$consultant = new ConsultantAction();
+$oneConsultant = $consultant->one('phone',$one->phone);
+if(!$oneConsultant) Tool::alertLocation(null,'warning.php');
+////////////////////////////////////////////////////
+
 $objects = $apply->getSub();
 $winCount = $apply->getWinSubCount()->winCount;
 
@@ -42,7 +52,7 @@ $nav = 'getsub';
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>我推荐的联创人查询</title>
+    <title>我推荐的联创人</title>
 
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css">
     <link rel="stylesheet" href="<?php echo WEB_PATH?>/style/admin.css">
@@ -55,8 +65,9 @@ $nav = 'getsub';
 <body>
 
 <div class="topbar">
-    我推荐的联创人
+    联创人
     <a href="../my.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-left">返回</a>
+    <a href="<?php echo WEB_PATH;?>/getQrcode" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right">推广二维码</a>
 </div>
 
 <div class="weui-grids">

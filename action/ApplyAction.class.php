@@ -14,6 +14,14 @@ class ApplyAction extends Action
         parent::__construct(new ApplyModel);
     }
 
+    //查找单个联创人
+    public function getOne($field = 'id',$value){
+        if ($field === null) $field = 'id';
+        $this->model->$field = $value;
+        $one = $this->model->getOneApply($field);
+        return $one;
+    }
+
     //getApplyFromConsultant
     public function getApplyFromConsultant($consultantId){
         $this->model->consultantId = $consultantId;
@@ -176,57 +184,61 @@ class ApplyAction extends Action
             /*积分模块begin*/
             $sql2 = '';
             $streamSql = '';
-            if ($apply->parent_id != 0) {               //判断是否有上级，无上级不记录积分及积分流水
-                $pointM = new PointModel();             //积分对象
-                $pointM->bid = $this->model->id;        //产生积分的联创人ID
-                $point = $pointM->oneApplyPoint();           //检测该联创人是否已产生过积分记录
-                //如果联创人状态为通过，并且不存在该联创人的积分记录，则新增一条积分记录
-                if ($this->model->status == 1 && empty($point)) {
-                    $pointM->point = 300;                    //通过审核后产生的积分数，可以后台设置
-                    $pointM->status = 0;
-                    $pointM->type = '联创人积分';
-                    $sql2 = $pointM->addPointSql();
-                    //流水说明及流水类型
-                    $streamDescription = "联创人 $apply->name 通过审核，上级联创人 $apply->referee_name 不可用积分 +".$pointM->point;
-                    $streamChangeType = 1;
-
-                    $streamAvailablePoint = 0;
-                    $streamUnavailablePoint = "+".$pointM->point;
-                    $streamBriefDesc = "不可用+".$pointM->point;
-                }
-                //如果联创人状态为未审核或拒绝，并且该联创人存在积分记录，则删除该积分记录
-                if ($this->model->status != 1 && !empty($point)) {
-                    $sql2 = $pointM->deletePointSql();
-                    //流水说明及流水类型
-                    $streamDescription = "联创人 $apply->name 被取消审核状态，上级联创人 $apply->referee_name 不可用积分 -".$point->point;
-                    $streamChangeType = 2;
-
-                    $streamAvailablePoint = 0;
-                    $streamUnavailablePoint = "-".$point->point;
-                    $streamBriefDesc = "不可用-".$point->point;
-                }
-                /*积分模块end*/
-
-                /*积分流水begin*/
-                if ($sql2 != '') {
-                    $streamM = new PointStreamModel();
-                    $streamM->applyId = $this->model->id;
-                    $streamM->applyName = $this->model->name;
-                    $streamM->refereeId = $apply->referee_id;
-                    $streamM->refereeName = $apply->referee_name;
-                    $streamM->description = $streamDescription;
-                    $streamM->changeType = $streamChangeType;
-
-                    $streamM->availablePoint = $streamAvailablePoint;
-                    $streamM->unavailablePoint = $streamUnavailablePoint;
-                    $streamM->briefDesc = $streamBriefDesc;
-
-                    $streamSql = $streamM->addStreamSql();
-                } else {
-                    $streamSql = '';
-                }
-                /*积分流水end*/
-            }
+            /*
+             * 取消联创人积分
+             * */
+//            if ($apply->parent_id != 0) {               //判断是否有上级，无上级不记录积分及积分流水
+//                $pointM = new PointModel();             //积分对象
+//                $pointM->bid = $this->model->id;        //产生积分的联创人ID
+//                $point = $pointM->oneApplyPoint();           //检测该联创人是否已产生过积分记录
+//                //如果联创人状态为通过，并且不存在该联创人的积分记录，则新增一条积分记录
+//                if ($this->model->status == 1 && empty($point)) {
+//                    $pointM->point = 300;                    //通过审核后产生的积分数，可以后台设置
+//                    $pointM->status = 0;
+//                    $pointM->type = '联创人积分';
+//                    $sql2 = $pointM->addPointSql();
+//                    //流水说明及流水类型
+//                    $streamDescription = "联创人 $apply->name 通过审核，上级联创人 $apply->referee_name 不可用积分 +".$pointM->point;
+//                    $streamChangeType = 1;
+//
+//                    $streamAvailablePoint = 0;
+//                    $streamUnavailablePoint = "+".$pointM->point;
+//                    $streamBriefDesc = "不可用+".$pointM->point;
+//                }
+//                //如果联创人状态为未审核或拒绝，并且该联创人存在积分记录，则删除该积分记录
+//                if ($this->model->status != 1 && !empty($point)) {
+//                    $sql2 = $pointM->deletePointSql();
+//                    //流水说明及流水类型
+//                    $streamDescription = "联创人 $apply->name 被取消审核状态，上级联创人 $apply->referee_name 不可用积分 -".$point->point;
+//                    $streamChangeType = 2;
+//
+//                    $streamAvailablePoint = 0;
+//                    $streamUnavailablePoint = "-".$point->point;
+//                    $streamBriefDesc = "不可用-".$point->point;
+//                }
+//                /*积分模块end*/
+//
+//
+//                /*积分流水begin*/
+//                if ($sql2 != '') {
+//                    $streamM = new PointStreamModel();
+//                    $streamM->applyId = $this->model->id;
+//                    $streamM->applyName = $this->model->name;
+//                    $streamM->refereeId = $apply->referee_id;
+//                    $streamM->refereeName = $apply->referee_name;
+//                    $streamM->description = $streamDescription;
+//                    $streamM->changeType = $streamChangeType;
+//
+//                    $streamM->availablePoint = $streamAvailablePoint;
+//                    $streamM->unavailablePoint = $streamUnavailablePoint;
+//                    $streamM->briefDesc = $streamBriefDesc;
+//
+//                    $streamSql = $streamM->addStreamSql();
+//                } else {
+//                    $streamSql = '';
+//                }
+//                /*积分流水end*/
+//            }
 
 
             $this->model->updateApply_t($sql2, $streamSql) ? Tool::alertLocation('修改成功！', PREV_URL) : Tool::alertBack('修改失败！');

@@ -24,10 +24,16 @@
                 <i class="fa fa-hourglass-2 weui-tabbar__icon"></i>
                 <p class="weui-tabbar__label">积分</p>
             </a>
-            <a href="<?php echo WEB_PATH;?>/getQrcode" class="weui-tabbar__item <?php if ($nav == 'qrcode') echo 'weui-bar__item_on';?>">
+            <a href="<?php echo WEB_PATH;?>/getSub" class="weui-tabbar__item <?php if ($nav == 'getSub') echo 'weui-bar__item_on';?>">
                 <i class="fa fa-qrcode weui-tabbar__icon"></i>
                 <p class="weui-tabbar__label">推广</p>
             </a>
+            <!--
+            <a href="<?php /*echo WEB_PATH;*/?>/getQrcode" class="weui-tabbar__item <?php /*if ($nav == 'qrcode') echo 'weui-bar__item_on';*/?>">
+                <i class="fa fa-qrcode weui-tabbar__icon"></i>
+                <p class="weui-tabbar__label">推广</p>
+            </a>
+            -->
         </div>
     </div>
 </div>

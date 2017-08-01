@@ -149,13 +149,13 @@ class ApplyModel extends Model {
 
 
     //查找单个申请人
-    public function  getOneApply(){
+    public function  getOneApply($field = 'id'){
         $sql = "SELECT
 						*
 				  FROM
 				  		lcr_apply
 				 WHERE
-				 		id = '$this->id'
+				 		$field = '{$this->$field}'
 				 LIMIT
 				 		1";
         return parent::one($sql);

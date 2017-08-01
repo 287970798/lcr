@@ -22,6 +22,20 @@ class ConsultantModel extends Model {
     public function __get($key){
         return $this->$key;
     }
+    //通过传入字段查询单一
+    public function getOneCounsultant($field='id'){
+        $sql = "SELECT
+                        id,
+                        name,
+                        phone,
+                        wechat,
+                        ctime
+                  FROM
+                        lcr_consultants
+                 WHERE
+                        $field = '{$this->$field}'";
+        return parent::one($sql);
+    }
     //获取本人及下级所有优学顾问服务的联创人
     //getSubConsultantApply
     public function getSubConsultantApply(){

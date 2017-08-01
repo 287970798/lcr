@@ -1,6 +1,7 @@
 <?php
     session_start();
     require substr(dirname(__FILE__), 0, -8) . '/init.inc.php';
+//$_SESSION['apply_id'] = 3;
     Validate::checkSession('apply_id', WEB_PATH.'/login.php');
     $studentsAction = new StudentAction();
     $students = $studentsAction->ownStudents();
@@ -65,6 +66,15 @@
     <a href="add.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right"><i class="fa fa-user-plus""></i> 新增</a>
 </div>
 
+<!--//////////////////////////////////////////-->
+<div class="container-fluid" style="background: #FFF;padding-left: 0px;padding-right: 0px;">
+    <a href="images/2pointdetail.png"><img src="../images/2point.png" alt="" style="width: 100%;"></a>
+    <!--
+    <a href="http://uniteedu.cn/xmjz/item.php?id=13"><img src="http://uniteedu.cn/yxh/images/yxh_ui_qd.png" alt="" style="width: 100%;margin-bottom: 10px"></a>
+    <a href="http://uniteedu.cn/xmjz/?id=8"><img src="<?php /*echo WEB_PATH;*/?>/images/whlg_zsb_ad.png" alt="" style="width: 100%;margin-bottom: 10px"></a>
+    -->
+</div>
+<!--//////////////////////////////////////////-->
 <div class="weui-grids">
     <a href="javascript:;" class="weui-grid">
         <div class="weui-grid__icon" style="color: #5eb9ff;">

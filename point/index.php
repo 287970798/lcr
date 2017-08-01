@@ -111,12 +111,12 @@ $nav = 'point';
     <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right" onclick="weui.alert('您没有可兑换的积分！', {title:'兑换说明'});"><i class="fa fa-money"></i> 兑换</a>
 </div>
 <div class="weui-grids">
-    <a href="javascript:;" class="weui-grid">
+    <a href="../project" class="weui-grid">
         <div class="weui-grid__icon" style="color: #5eb9ff;">
             <i class="fa fa-cubes"></i>
         </div>
         <p class="weui-grid__label">
-            总积分 <?php echo $point->availablePoint + $point->unavailablePoint;?>
+            项目积分
         </p>
     </a>
     <a href="javascript:;" class="weui-grid">
