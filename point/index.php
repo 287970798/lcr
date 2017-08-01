@@ -108,7 +108,7 @@ $nav = 'point';
     积分明细
     <a href="../my.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-left"><i class="fa fa-mail-reply"></i> 返回</a>
     <a href="javascript:;" onclick="weui.alert(document.getElementById('pointDescBox').innerHTML, {title:'积分说明'});"><img src="<?php echo WEB_PATH;?>/images/weui/icon_intro.png" alt="" style="width: 15px;margin-top: -3px;"></a>
-    <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right" onclick="weui.alert('您没有可兑换的积分！', {title:'兑换说明'});"><i class="fa fa-money"></i> 兑换</a>
+    <a href="account.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right" "><i class="fa fa-money"></i> 兑换</a>
 </div>
 <div class="weui-grids">
     <a href="../project" class="weui-grid">
