@@ -29,7 +29,7 @@ if (!empty($projects)){
     $projectHtml = '';
     $pointHtml = '';
     foreach ($projects as $project){
-        $projectHtml .= '<option value="' . $project->id . '">' . $project->name . '&nbsp;&nbsp;&nbsp;&nbsp;积分 ' .$project->point.'</option>';
+        $projectHtml .= '<option value="' . $project->id . '">' . $project->name.'</option>';
     }
 }
 

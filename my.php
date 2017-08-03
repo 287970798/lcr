@@ -141,7 +141,7 @@ $nav = 'index';
             <i class="fa fa-user-plus" style="color: #fff;"></i>
         </div>
         <p class="weui-grid__label" style="color: #444;">
-            新增学员
+            学员报名
         </p>
     </a>
     <a href="<?php echo WEB_PATH;?>/student/" class="weui-grid">
@@ -239,7 +239,14 @@ $nav = 'index';
             <div class="weui-flex__item" onclick="location.href='project-item.php?id=6'">泰国暹罗大学</div>
             <div class="weui-flex__item" onclick="location.href='project-item.php?id=23'">曼谷北部大学</div>
             <div class="weui-flex__item" onclick="location.href='project-item.php?id=24'">曼谷皇家理工</div>
+            <div class="weui-flex__item" onclick="location.href='project-item.php?id=25'">格林威尔大学</div>
+        </div>
+
+        <div class="weui-flex project project3">
+            <div class="weui-flex__item" onclick="location.href='project-item.php?id=26'">美国圣彼得大学</div>
             <div class="weui-flex__item">即将推出</div>
+            <div class="weui-flex__item" style="opacity: 0;"></div>
+            <div class="weui-flex__item" style="opacity: 0;"></div>
         </div>
     </div>
     <?php
@@ -467,17 +474,11 @@ $nav = 'index';
                     <p>
                         1.点击右下角“推广”，分享你的专属二维码给好友。
                     </p>
-                    <p>
-                        2.好友扫码并提交申请后，推荐人将获得300锁定积分。
-                    </p>
-                    <p>
-                        3.当联创人推荐学员报名后，推荐人的锁定积分转为可用积分。
-                    </p>
                 </section>
                 <section>
                     <h3>积分相关</h3>
                     <p>
-                        1.新增学员、新增联创人、参加积分活动可积分获得积分。
+                        1.新增学员、参加积分活动可积分获得积分。
                     </p>
                     <p>
                         2.可用积分可对兑换现金或商品，5个工作日内兑换完成。

@@ -63,7 +63,7 @@
 <div class="topbar">
     学员管理
     <a href="<?php echo WEB_PATH?>/admin/lct/" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-left">返回</a>
-    <a href="add.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right"><i class="fa fa-user-plus""></i> 新增</a>
+    <a href="add.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right hidden"><i class="fa fa-user-plus""></i> 学员报名</a>
 </div>
 
 <!--//////////////////////////////////////////-->
@@ -76,12 +76,12 @@
 </div>
 <!--//////////////////////////////////////////-->
 <div class="weui-grids">
-    <a href="javascript:;" class="weui-grid">
+    <a href="<?php echo WEB_PATH;?>/student/add.php" class="weui-grid">
         <div class="weui-grid__icon" style="color: #5eb9ff;">
-            <i class="fa fa-users"></i>
+            <i class="fa fa-user-plus"></i>
         </div>
         <p class="weui-grid__label">
-            总学员 <?php echo $status0 + $status1 + $status2;?>
+            学员报名
         </p>
     </a>
     <a href="javascript:;" class="weui-grid">

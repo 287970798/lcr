@@ -87,8 +87,7 @@ $nav = 'point';
         <h4><span class="label label-success">积分获得</span></h4>
         <ol type="1">
             <li>1、新增学员</li>
-            <li>2、新增联创人</li>
-            <li>3、参加积分活动</li>
+            <li>2、参加积分活动</li>
         </ol>
         <h4><span class="label label-success">积分状态</span></h4>
         <ul>
@@ -108,7 +107,7 @@ $nav = 'point';
     积分明细
     <a href="../my.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-left"><i class="fa fa-mail-reply"></i> 返回</a>
     <a href="javascript:;" onclick="weui.alert(document.getElementById('pointDescBox').innerHTML, {title:'积分说明'});"><img src="<?php echo WEB_PATH;?>/images/weui/icon_intro.png" alt="" style="width: 15px;margin-top: -3px;"></a>
-    <a href="account.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right" "><i class="fa fa-money"></i> 兑换</a>
+    <a href="account.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right hidden" "><i class="fa fa-money"></i> 兑换</a>
 </div>
 <div class="weui-grids">
     <a href="../project" class="weui-grid">
@@ -136,7 +135,11 @@ $nav = 'point';
         </p>
     </a>
 </div>
-
+<!--////////////////////////-->
+<div class="container-fluid" style="background: #FFF;padding-bottom: 15px;padding-top: 15px;margin-bottom: 15px;border-bottom: 1px solid #d9d9d9;">
+    <a href="account.php" class="btn btn-success btn-lg center-block" style="width: 90%;background-color: #5eb9ff;border-color: #5eb9ff;"><i class="fa fa-money"></i> 积分兑换</a>
+</div>
+<!--////////////////////////-->
 <div class="weui-cells__title">积分明细</div>
 <div class="weui-cells">
 <?php

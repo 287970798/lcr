@@ -42,7 +42,7 @@ $nav = '项目管理';
         <tr>
             <th>项目名</th>
             <th>积分</th>
-            <th>简介</th>
+            <!--<th>简介</th>-->
             <th>简章</th>
         </tr>
         </thead>
@@ -54,15 +54,15 @@ $nav = '项目管理';
                 <tr>
                     <td><a href="javascript:;" onclick="weui.alert('<?php echo $project->note?>',{title:'<?php echo $project->brief_name?>'});"><?php echo $project->name;?></a></td>
                     <td><?php echo $project->point;?></td>
-                    <td>
+                    <!--<td>
                         <?php
-                            if (mb_strlen(trim($project->note)) > 0){
+/*                            if (mb_strlen(trim($project->note)) > 0){
                                 echo '<a href="javascript:;" onclick="weui.alert(\''.$project->note.'\',{title:\''.$project->brief_name.'\'});" class="btn btn-success btn-xs">简介</a>';
                             } else {
                                 echo '<a href="javascript:;" class="btn btn-warning btn-xs disabled">暂缺</a>';
                             }
-                        ?>
-                    </td>
+                        */?>
+                    </td>-->
                     <td>
                         <?php
                         if (mb_strlen(trim($project->catalogLink)) > 0){
@@ -76,7 +76,7 @@ $nav = '项目管理';
                 <?php
             }
         }else{
-            echo '<tr><td colspan="2" class="text-center text-warning">无项目数据</td></tr>';
+            echo '<tr><td colspan="3" class="text-center text-warning">无项目数据</td></tr>';
         }
         ?>
         </tbody>
