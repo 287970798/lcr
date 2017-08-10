@@ -36,6 +36,8 @@ class ProjectAction extends Action {
             $this->model->point = $_POST['point'];
             $this->model->catalogLink = $_POST['catalogLink'];
             $this->model->note = $_POST['note'];
+            $this->model->category = $_POST['category'];
+            $this->model->list_order = $_POST['list_order'];
             $this->model->add() ? Tool::alertLocation('新增成功！', '.') : Tool::alertBack('新增失败！');
         }
     }
@@ -50,6 +52,8 @@ class ProjectAction extends Action {
             $this->model->point = $_POST['point'];
             $this->model->catalogLink = $_POST['catalogLink'];
             $this->model->note = $_POST['note'];
+            $this->model->category = $_POST['category'];
+            $this->model->list_order = $_POST['list_order'];
             $this->model->update() ? Tool::alert('修改成功！', '.') : Tool::alert('修改失败！');
         }
     }

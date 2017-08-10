@@ -12,6 +12,21 @@ $nav = '招生管理';
 $projectAction = new ProjectAction();
 $projectAction->update();
 $project = $projectAction->showOne();
+//类别
+$projects = $projectAction->show();
+$categories = [];
+foreach ($projects as $pro) {
+    $categories[$pro->category] = $pro->category_name;
+}
+$cateSelect = '';
+foreach ($categories as $key => $value) {
+    if ($key == $project->category) {
+        $selected = 'selected';
+    } else {
+        $selected = '';
+    }
+    $cateSelect .= "<option value={$key} {$selected}>{$value}</option>";
+}
 ?>
 <!doctype html>
 <html lang="zh">
@@ -48,6 +63,14 @@ $project = $projectAction->showOne();
         <div class="form-group">
             <label for="note">备注</label>
             <textarea name="note" class="form-control" rows="3"><?php echo $project->note;?></textarea>
+        </div>
+        <div class="from-group">
+            <label for="category">项目类别</label>
+            <select name="category" id="category" class="form-control"><?=$cateSelect;?></select>
+        </div>
+        <div class="form-group">
+            <label for="list_order">排序</label>
+            <input type="number" name="list_order" id="list_order" placeholder="请输入整数，越小越靠前" class="form-control" value="<?=$project->list_order;?>">
         </div>
         <input type="hidden" name="id" value="<?php echo $project->id;?>">
         <div class="form-group">

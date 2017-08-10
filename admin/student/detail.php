@@ -16,7 +16,26 @@ $studentAction->updateStudent_t();
 $student = $studentAction->oneStudent();
 //状态下拉列表
 $student->statusHtml = '';
-foreach (array('营销中', '赢单', '输单') as $k=>$v){
+$readOnly = '';
+$submitBtnClass = '';
+
+//如果不是超级管理员，当状态为赢单或输单时，下拉框设为只读
+if ($_SESSION['admin'] != 'admin') {
+    if ($student->status == 1 || $student->status == 2){
+        $readOnly = 'onfocus="this.defaultIndex = this.selectedIndex;" onchange="this.selectedIndex = this.defaultIndex;"';
+        $submitBtnClass = 'hidden';
+    }
+}
+
+foreach (array('咨询中', '赢单', '输单','已报名','已缴费','已录取') as $k=>$v){
+    //当不是超级管理员，并且不是学员状态不为赢单或输单时，删除这两个选项
+    if ($_SESSION['admin'] != 'admin') {
+        if ($k != $student->status) { //当前循环值不是学员状态
+            if ($k == 1 || $k == 2) {   //并且循环值为1，或2
+                continue;   //跳出当前循环
+            }
+        }
+    }
     $k == $student->status ? $selected ='selected = "selected"' : $selected = '';
     $student->statusHtml .= '<option value="'.$k.'" '.$selected.'>'.$v.'</option>';
 }
@@ -59,7 +78,7 @@ if (!empty($projects)){
         <input type="hidden" name="oldStatus" value="<?php echo $student->status?>">
         <div class="form-group">
             <label for="status">营销状态</label>
-            <select name="status" id="status" class="form-control">
+            <select name="status" id="status" class="form-control" <?=$readOnly;?>>
                 <?php echo $student->statusHtml;?>
             </select>
         </div>
@@ -113,7 +132,7 @@ if (!empty($projects)){
         <input type="hidden" name="id" value="<?php echo $student->id;?>">
         <input type="hidden" name="owner_id" value="<?php echo $student->owner_id?>">
         <div class="form-group">
-            <button type="submit" name="send" class="btn btn-md btn-success btn-block submit">修改</button>
+            <button type="submit" name="send" class="btn btn-md btn-success btn-block submit <?=$submitBtnClass?>">修改</button>
         </div>
         <div class="form-group">
             <button type="submit" name="delete" class="btn btn-md btn-default btn-block submit" disabled>删除</button>

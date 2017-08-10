@@ -11,6 +11,15 @@ Validate::checkSession();
 $nav = '招生管理';
 $projectAction = new ProjectAction();
 $projectAction->add();
+$projects = $projectAction->show();
+$categories = [];
+foreach ($projects as $project) {
+    $categories[$project->category] = $project->category_name;
+}
+$cateSelect = '';
+foreach ($categories as $key => $value) {
+    $cateSelect .= "<option value={$key}>{$value}</option>";
+}
 ?>
 <!doctype html>
 <html lang="zh">
@@ -47,6 +56,14 @@ $projectAction->add();
         <div class="form-group">
             <label for="note">备注</label>
             <textarea name="note" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="from-group">
+            <label for="category">项目类别</label>
+            <select name="category" id="category" class="form-control"><?=$cateSelect;?></select>
+        </div>
+        <div class="form-group">
+            <label for="list_order">排序</label>
+            <input type="number" name="list_order" id="list_order" placeholder="请输入整数，越小越靠前" class="form-control">
         </div>
         <div class="form-group">
             <button type="submit" name="send" class="btn btn-md btn-success btn-block submit">提交</button>

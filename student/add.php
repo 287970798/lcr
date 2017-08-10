@@ -25,11 +25,22 @@ $studentAction->addStudent_t();
 //项目下拉列表选项
 $projectsAction = new ProjectAction();
 $projects = $projectsAction->show();
+
 if (!empty($projects)){
+    //组合类别二维数组
+    $categories = [];
+    foreach ($projects as $project) {
+        $categories[$project->category_name][] = $project;
+    }
+    //组装列表项
     $projectHtml = '';
     $pointHtml = '';
-    foreach ($projects as $project){
-        $projectHtml .= '<option value="' . $project->id . '">' . $project->name.'</option>';
+    foreach ($categories as $key => $category) {
+        $projectHtml .= "<optgroup label='{$key}'>";
+        foreach ($category as $project) {
+            $projectHtml .= '<option value="' . $project->id . '">' . $project->name.'</option>';
+        }
+        $projectHtml .= '</optgroup>';
     }
 }
 

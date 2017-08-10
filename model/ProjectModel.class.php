@@ -13,6 +13,8 @@ class ProjectModel extends Model {
     private $point;
     private $catalogLink;
     private $note;
+    private $category;  //类别
+    private $list_order;    //排序
 
     public function __set($name, $value)
     {
@@ -24,18 +26,47 @@ class ProjectModel extends Model {
     }
 
     //查询所有项目
-    public function allProjects(){
+    public function allProjects2(){
         $sql = "SELECT
                         id,
                         brief_name,
                         point,
                         name,
                         note,
-                        catalogLink
+                        catalogLink,
+                        category
                   FROM
                         lcr_projects
               ORDER BY
-                        point ASC";
+                        category ASC,
+                        list_order ASC,
+                        point DESC";
+        return parent::all($sql);
+    }
+    //查询所有项目
+    public function allProjects(){
+        $sql = "SELECT
+                        a.id,
+                        a.brief_name,
+                        a.point,
+                        a.name,
+                        a.note,
+                        a.catalogLink,
+                        a.category,
+                        a.list_order,
+                        b.list_order as b_list_order,
+                        b.name as category_name
+                  FROM
+                        lcr_projects AS a
+             LEFT JOIN
+                        lcr_project_categorys AS b
+                    ON 
+                        a.category = b.id
+              ORDER BY
+                        b.list_order ASC ,
+                        a.category ASC,
+                        a.list_order ASC,
+                        a.point DESC";
         return parent::all($sql);
     }
 
@@ -47,7 +78,9 @@ class ProjectModel extends Model {
                         name,
                         point,
                         catalogLink,
-                        note
+                        note,
+                        category,
+                        list_order
                   FROM
                         lcr_projects
                  WHERE
@@ -64,7 +97,9 @@ class ProjectModel extends Model {
 											name,
 											point,
 											catalogLink,
-											note
+											note,
+											category,
+											list_order
 										)
 								VALUES
 										(
@@ -72,7 +107,9 @@ class ProjectModel extends Model {
 											'$this->name',
 											'$this->point',
 											'$this->catalogLink',
-											'$this->note'
+											'$this->note',
+											'$this->category',
+											'$this->list_order'
 										)";
         return parent::aud($sql);
     }
@@ -86,7 +123,9 @@ class ProjectModel extends Model {
 				   		name = '$this->name',
 				   		point = '$this->point',
 				   		catalogLink = '$this->catalogLink',
-				   		note = '$this->note'
+				   		note = '$this->note',
+                        category = '$this->category',
+                        list_order = '$this->list_order'
 				 WHERE
 				 		id = '$this->id' 
 				 LIMIT 

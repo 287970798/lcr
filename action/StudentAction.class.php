@@ -220,6 +220,7 @@ class StudentAction extends Action {
              * 上级联创人产生的积分变为可用
              * */
             $applySql = '';
+            $applyStreamSql = '';
             if ($this->model->owner_id != 0){       //所属联创人ID=0，是系统添加，没有所属联创人
                 $applySql = '';
                 $applyStreamSql = '';

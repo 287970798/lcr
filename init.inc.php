@@ -17,3 +17,4 @@ function __autoLoad($classname){
         require ROOT_PATH.'/includes/'.$classname.'.class.php';
     }
 }
+require ROOT_PATH.'/includes/function.php';

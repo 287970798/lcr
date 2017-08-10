@@ -40,10 +40,10 @@ class ConsultantAction extends Action {
         $applyM = new ApplyModel();
         $applyM->phone = $_POST['phone'];
         $apply = $applyM->getOneApplyFromPhone();
-        if (!$apply) Tool::alertBack('该人员不是联创人！');
+        if (!$apply) Tool::alertBack('该人员需先成为联创人之后才可添加员工！');
         //通过手机号检测该优学顾问是否已存在
         $consultant = $this->model->getOneFromPhone();
-        if ($consultant) Tool::alertBack('系统已存在该优学顾问！');
+        if ($consultant) Tool::alertBack('该员工已归属其他联创团！');
 
         if (isset($_POST['pid'])) $this->model->pid = $_POST['pid'];
 
