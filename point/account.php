@@ -27,44 +27,25 @@ require substr(dirname(__FILE__), 0, -6) . '/init.inc.php';
 </head>
 <body>
 <div class="topbar">
-    填写帐户信息
+    完善帐户信息
     <a href="<?php echo WEB_PATH?>/point/" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-left">返回</a>
     <a href="add.php" class="weui-btn weui-btn_mini weui-btn_plain-default topbar-btn-right hidden"><i class="fa fa-user-plus""></i> 新增</a>
 </div>
 
-<form>
+<form id="accountForm">
 <div class="weui-cells__title">基本信息</div>
 <div class="weui-cells weui-cells_form">
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="text" placeholder="请输入真实姓名"/>
+            <input name="real_name" class="weui-input" type="text" placeholder="请输入真实姓名"/>
         </div>
     </div>
-<!--
-    <div class="weui-cell weui-cell_vcode">
-        <div class="weui-cell__hd">
-            <label class="weui-label">手机号</label>
-        </div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="tel" placeholder="请输入手机号">
-        </div>
-        <div class="weui-cell__ft">
-            <a href="javascript:;" class="weui-vcode-btn">获取验证码</a>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" placeholder="请输入验证码"/>
-        </div>
-    </div>
-    -->
 
     <div class="weui-cell">
         <div class="weui-cell__hd"><label for="" class="weui-label">身份证号</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="text" placeholder="身份证号"/>
+            <input name="credit_card" class="weui-input" type="text" placeholder="身份证号"/>
         </div>
         <div class="weui-cell__ft">
             <i class="weui-icon-warn"></i>
@@ -74,7 +55,7 @@ require substr(dirname(__FILE__), 0, -6) . '/init.inc.php';
     <div class="weui-cell">
         <div class="weui-cell__hd"><label for="" class="weui-label">银行卡号</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" placeholder="提现银行卡号"/>
+            <input name="bank_card" class="weui-input" type="number" pattern="[0-9]*" placeholder="提现银行卡号"/>
         </div>
         <div class="weui-cell__ft">
             <i class="weui-icon-warn"></i>
@@ -86,14 +67,14 @@ require substr(dirname(__FILE__), 0, -6) . '/init.inc.php';
 <div class="weui-cells weui-cells_form">
     <div class="weui-cell">
         <div class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="请输入开户行" rows="3"></textarea>
+            <textarea name="deposit_bank" class="weui-textarea" placeholder="请输入开户行" rows="3"></textarea>
             <div class="weui-textarea-counter hidden"><span>0</span>/200</div>
         </div>
     </div>
 </div>
 
 <div class="weui-cells__title">请上传手持身份证照片</div>
-<input type="text" name="imgsrc" id="imgsrc" class="hidden">
+<input type="text" name="credit_card_photo" id="imgsrc" class="hidden">
 <input type="file" name="myFile" id="file" class="hidden">
 <div class="photo weui-cells weui-cells_form text-center" style="background-color: transparent;border: none;">
     <div style="border: 1px solid #CCC;height: 200px;width: 90%;position: relative;left: 5%;text-align: center;line-height: 200px;background-color: #fff">
@@ -102,17 +83,7 @@ require substr(dirname(__FILE__), 0, -6) . '/init.inc.php';
         <span id="tip" style="position: absolute;left: 10%;top: 85%;" class="label label-info"></span>
     </div>
 </div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label for="" class="weui-label">兑换金额</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" placeholder="当前可兑换金额为 0 元"/>
-        </div>
-        <div class="weui-cell__ft">
-            <i class="weui-icon-warn"></i>
-        </div>
-    </div>
-</div>
+
 
 <div class="weui-cells__title">请认真填写以上信息，错误信息会影响提现 </div>
 
@@ -173,8 +144,41 @@ require substr(dirname(__FILE__), 0, -6) . '/init.inc.php';
         });
     });
     $('#showTooltips').click(function () {
-        weui.alert('信息有误！');
+        var aForm = document.getElementById('accountForm');
+        // 数据
+        var data = {
+            "apply_id" : <?=$_SESSION['apply_id']?:0;?>,
+            "real_name" : aForm.real_name.value,
+            "credit_card" : aForm.credit_card.value,
+            'bank_card' : aForm.bank_card.value,
+            'deposit_bank' : aForm.deposit_bank.value,
+            'credit_card_photo' : aForm.credit_card_photo.value
+        };
+        /*验证*/
+
+        /*提交*/
+        $.ajax({
+            url: "http://uniteedu.cn/work/public/lcr/account/accountInfo/type/add",
+            type: 'POST',
+            data: data
+        }).done(function(result){
+            if (parseInt(result.code) === 1) {
+                weui.toast(result.message, {
+                    callback : function () {
+                        location.href = 'http://uniteedu.cn/lcyx/lcr/point/exchange.php';
+                        console.log('成功回调');
+                    }
+                });
+            } else {
+                weui.alert(result.message, {title : '警告'});
+            }
+            console.log(result);
+        }).fail(function(err){
+            weui.alert(err.statusText);
+            console.log(err);
+        });
     });
+
 </script>
 </body>
 </html>

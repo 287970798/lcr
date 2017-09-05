@@ -11,6 +11,8 @@ Validate::checkSession('agent', WEB_PATH.'/admin/login.php');
 
 $consultantA = new ConsultantAction();
 $staffs = $consultantA->getStaffs($_SESSION['agent']->id);
+$leader = $consultantA->one('id', $_SESSION['agent']->id);
+array_unshift($staffs, $leader);
 ?>
 <!doctype html>
 <html lang="cn">
@@ -71,11 +73,27 @@ $staffs = $consultantA->getStaffs($_SESSION['agent']->id);
         </tr>
         </thead>
         <tbody>
+        <style>
+            sup{
+                border: 1px solid #5eb95e;
+                border-radius: 10px;
+                padding: 2px;
+                color: #5eb95e;
+            }
+        </style>
         <?php
         if ($staffs){
             foreach ($staffs as $staff){
+                //角标////////////////////////////////////
+                $sup = '';
+                if ($staff->isAgent){
+                    $sup = '<sup>团长</sup>';
+                } elseif($staff->is_manager) {
+                    $sup = '<sup>管理员</sup>';
+                }
+                //角标//////////////////////////////////////
                 echo '<tr>
-                            <td><a href="staff_detail.php?id='.$staff->id.'">'.$staff->name.'</a></td>
+                            <td><a href="staff_detail.php?id='.$staff->id.'">'.$staff->name.'</a> ' . $sup . '</td>
                             <td>'.$staff->phone.'</td>
                             <td>'.date('Y-m-d', strtotime($staff->ctime)).'</td>
                           </tr>';

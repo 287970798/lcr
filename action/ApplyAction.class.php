@@ -153,14 +153,36 @@ class ApplyAction extends Action
             $apply = $this->model->getOneApplyFull();
 
             if($this->model->status ==1 && $apply->status <> 1) {
+                // 通知联创人通过审核
+                if ($apply->openid) {
+                    $postArr = array(
+                        'touser' => $apply->openid,
+                        'template_id' => '0CuP5RZIY7pDGQUxSerb_BqccfvJqDupgPFKOKCClPE',
+                        'data' => array(
+                            'first' => array(
+                                'value' => '恭喜！您已通过联创人审核', 'color' => '#ff0000'
+                            ),
+                            'keyword1' => array(
+                                'value' => $apply->name, 'color' => '#173177'
+                            ),
+                            'keyword2' => array(
+                                'value' => date('Y-m-d h:i:s'), 'color' => '#173177'
+                            ),
+                            'keyword3' => array(
+                                'value' => '通过审核', 'color' => '#173177'
+                            )
+                        )
+                    );
+                    new WXTemplateMsg($postArr);
+                }
                 //获取优学顾问信息
                 $consultantM = new ConsultantModel();
                 $consultantM->id = $this->model->consultantId;
                 $consultant = $consultantM->getConsultantOpenIdFromId();
                 //模板消息
-                if (!empty($consultant) && !empty($consultant->openId)) {
+                if (!empty($consultant) && !empty($consultant->openid)) {
                     $postArr = array(
-                        'touser' => $consultant->openId,
+                        'touser' => $consultant->openid,
                         'template_id' => '0CuP5RZIY7pDGQUxSerb_BqccfvJqDupgPFKOKCClPE',
                         'data' => array(
                             'first' => array(

@@ -94,7 +94,14 @@ class ApplyModel extends Model {
                                           note,
                                           apply_time,
                                           serviceName,
-                                          servicePhone
+                                          servicePhone,
+                                          openid,
+                                          wx_nickname,
+                                          wx_sex,
+                                          wx_headimgurl,
+                                          wx_province,
+                                          wx_city,
+                                          wx_country
                                       )
                                VALUES
                                       (
@@ -106,7 +113,14 @@ class ApplyModel extends Model {
                                           '$this->note',
                                           NOW(),
                                           '$this->serviceName',
-                                          '$this->servicePhone'
+                                          '$this->servicePhone',
+                                          '$this->openid',
+                                          '$this->wx_nickname',
+                                          '$this->wx_sex',
+                                          '$this->wx_headimgurl',
+                                          '$this->wx_province',
+                                          '$this->wx_city',
+                                          '$this->wx_country'
                                       )";
         return parent::aud($sql);
     }
@@ -164,15 +178,7 @@ class ApplyModel extends Model {
     //查找单个申请人带推荐人信息
     public function  getOneApplyFull(){
         $sql = "SELECT
-						a.id,
-						a.parent_id,
-						a.name,
-						a.phone,
-						a.wechat,
-						a.apply_time,
-						a.status,
-						a.note,
-						a.consultantId,
+						a.*,
 						b.name AS referee_name,
 						b.phone AS referee_phone,
 						b.id AS referee_id

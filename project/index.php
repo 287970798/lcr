@@ -47,6 +47,32 @@ foreach ($projects as $project) {
 }
 //dump($categories);
 
+//////////////////////////////////////////////////////////
+$applyA = new ApplyAction();
+if (isset($_SESSION['wx'])){
+    $apply=$applyA->getOneFromOpenid();
+    if (!empty($apply)){
+        //获取优学顾问信息
+        $consultantA=new ConsultantAction();
+//        如果本人为优学顾问则显示自己的手机号，如果不是，则显示其优学顾问的手机号
+        $consultant = $consultantA->one('phone',$apply->phone)?:$consultantA->getOneFromId($apply->consultantId);
+//        $consultant=$consultantA->getOneFromId($apply->consultantId);
+        if (!empty($consultant)){
+            $_SESSION['consultant']=$consultant;
+            $apply->ext_phone=$apply->ext_phone?base64_encode(base64_encode($apply->ext_phone)):base64_encode(base64_encode($consultant->phone));
+        }
+        $_SESSION['apply']=$apply;
+    }
+}
+
+if (isset($_SESSION['apply'])&&isset($_SESSION['consultant'])){
+    $phoneStr='&ext_phone='.$_SESSION['apply']->ext_phone;
+}else{
+    $phoneStr='';
+}
+
+/////////////////////////////////////////////////////////
+
 $nav = '项目管理';
 ?>
 <!doctype html>
@@ -105,7 +131,7 @@ $nav = '项目管理';
                         <td>
                             <?php
                             if (mb_strlen(trim($project->catalogLink)) > 0){
-                                echo '<a href="'.$project->catalogLink.'" class="btn btn-success btn-xs">查看简章</a>';
+                                echo '<a href="'.$project->catalogLink.$phoneStr.'" class="btn btn-success btn-xs">查看简章</a>';
                             } else {
                                 echo '<a href="javascript:;" class="btn btn-warning btn-xs disabled">没有简章</a>';
                             }

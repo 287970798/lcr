@@ -1,5 +1,11 @@
 <?php
     require substr(dirname(__FILE__), 0, -5)."init.inc.php";
+    //增加微信登陆 获取微信信息//////////////////
+    $wx = new WXLogin('http://uniteedu.cn/lcyx/lcr/apply');
+    ////////////////////
+    if (!isset($_SESSION['wx'])) {
+        exit('微信内部错误');
+    }
     if (isset($_POST['type']) && $_POST['type'] == 'check'){
         $applyModel = new ApplyModel();
         $applyModel->phone = $_POST['phone'];
@@ -32,6 +38,15 @@
             exit;
         }
         $applyModel->wechat = $_POST['wechat'];
+        //微信帐号信息/////////////////////////////////////////////////////////
+        $applyModel->openid = $_SESSION['wx']['openid'];
+        $applyModel->wx_nickname = $_SESSION['wx']['nickname'];
+        $applyModel->wx_sex = $_SESSION['wx']['sex'];
+        $applyModel->wx_headimgurl = $_SESSION['wx']['headimgurl'];
+        $applyModel->wx_province = $_SESSION['wx']['province'];
+        $applyModel->wx_city = $_SESSION['wx']['city'];
+        $applyModel->wx_country = $_SESSION['wx']['country'];
+        //////////////////////////////////////////////////////////
         $applyModel->addApply();
         //模板消息数组
         $postArr1 = array(

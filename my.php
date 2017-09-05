@@ -1,10 +1,13 @@
 <?php
 session_start();
-//$_SESSION['apply_id'] = 50;
-//if (isset($_SESSION['apply_id'])) {
-//    unset($_SESSION['apply_id']);
-//    session_destroy();
-//}
+if ($_SESSION['apply_id'] == 3) {
+//    if (isset($_SESSION['apply_id'])) {
+//        unset($_SESSION['apply_id']);
+//        session_destroy();
+//    }
+    $_SESSION['apply_id'] = 406;
+}
+
 require dirname(__FILE__) . '/init.inc.php';
 Validate::checkSession('apply_id', WEB_PATH.'/login.php');
 $apply_id = $_SESSION['apply_id'];
@@ -39,7 +42,18 @@ $objectC = $consultantM->getOneFromNameAndPhone();
 $isAgent = false;
 if (!empty($objectC)) {
     $isAgent = $objectC->isAgent;
-    if ($isAgent) $_SESSION['agent'] = $objectC;
+    if ($isAgent) {
+        $_SESSION['agent'] = $objectC;
+    } elseif($objectC->is_manager) {
+        // 获取团长信息
+        $consultantM->id = $objectC->pid;
+        $leader = $consultantM->getOne();
+        if ($leader->isAgent){
+            $isAgent = $leader->isAgent;
+            $_SESSION['agent'] = $leader;
+            $_SESSION['is_manager'] = true;
+        }
+    }
 };
 
 $nav = 'index';
@@ -125,7 +139,7 @@ $nav = 'index';
         </p>
     </a>
     <a href="<?php echo WEB_PATH;?>/point" class="weui-grid cellgrid" style="width: 50%;letter-spacing: normal;">
-        <div class="weui-grid__icon"  style="color: #ff8265; width: 100%; text-align: center;font-size: 25px;letter-spacing: normal;">
+        <div class="weui-grid__icon" id="availablePoint"  style="color: #ff8265; width: 100%; text-align: center;font-size: 25px;letter-spacing: normal;">
             <?php echo @$countO->availablePoint;?>
         </div>
         <p class="weui-grid__label" style="color: #555;font-size: 14px;">
@@ -254,8 +268,6 @@ $nav = 'index';
     ?>
     <div class="container-fluid" style="background: #FFF;padding-bottom: 10px;">
         <div style="background: #fff;padding: 5px 10px;color: #999; letter-spacing: 1px;text-align: center">热门专题</div>
-        <a href="images/2pointdetail.png"><img src="images/2point.png" alt=""
-                                               style="width: 100%;margin-bottom: 10px"></a>
         <a href="http://uniteedu.cn/xmjz/item.php?id=13"><img src="http://uniteedu.cn/yxh/images/yxh_ui_qd.png" alt=""
                                                               style="width: 100%;margin-bottom: 10px"></a>
         <a href="http://uniteedu.cn/xmjz/?id=8"><img src="<?php echo WEB_PATH; ?>/images/whlg_zsb_ad.png" alt=""
@@ -492,6 +504,23 @@ $nav = 'index';
 
 <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    //查询已消耗积分
+    var data = {
+        apply_id : <?=$_SESSION['apply_id'];?>
+    }
+    $.ajax({
+        url: "http://uniteedu.cn/work/public/lcr/exchange/exchangesum",
+        type: 'get',
+        data: data
+    }).done(function(result){
+        var availablePoint = <?= @$countO->availablePoint;?> - parseInt(result);
+        $("#availablePoint").html(availablePoint);
+        console.log(result);
+    }).fail(function(err){
+        console.log(err);
+    });
+</script>
 </body>
 </html>
 </html>

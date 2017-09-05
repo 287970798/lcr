@@ -29,7 +29,10 @@ class ConsultantModel extends Model {
                         name,
                         phone,
                         wechat,
-                        ctime
+                        ctime,
+                        isAgent,
+                        pid,
+                        is_manager
                   FROM
                         lcr_consultants
                  WHERE
@@ -185,7 +188,10 @@ class ConsultantModel extends Model {
                         name,
                         phone,
                         wechat,
-                        ctime
+                        ctime,
+                        isAgent,
+                        pid,
+                        is_manager
                   FROM
                         lcr_consultants
                  WHERE
@@ -198,7 +204,7 @@ class ConsultantModel extends Model {
         $sql = "SELECT
                               a.name,
                               a.wx_nickname,
-                              a.openId
+                              a.openid
                        FROM
                               (select phone from lcr_consultants WHERE id = '$this->id') b
                   LEFT JOIN
@@ -253,7 +259,10 @@ class ConsultantModel extends Model {
                         name,
                         phone,
                         wechat,
-                        ctime
+                        ctime,
+                        isAgent,
+                        pid,
+                        is_manager
                   FROM
                         lcr_consultants
                  WHERE

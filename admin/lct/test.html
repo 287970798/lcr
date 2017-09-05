@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/template_js/0.7.1/template.js"></script>
+    <script>
+
+    </script>
+</head>
+<body>
+
+
+<script id="tpl" type="text/html">
+    <ul>
+        {{for(var i in data) { }}
+        {{=i}}
+        {{ } }}
+    </ul>
+</script>
+
+<div id="content"></div>
+
+
+<script>
+    template.config({sTag: '{{', eTag: '}}'});
+    var data = {
+        "agent1" : {
+            'title' : 'agent1 title'
+        },
+        "agent2" : {
+            'title' : 'agent2 title'
+        }
+    };
+    var tpl = document.getElementById('tpl').innerHTML;
+    var html = template(tpl, data);
+    document.getElementById('content').innerHTML = html;
+</script>
+</body>
+</html>

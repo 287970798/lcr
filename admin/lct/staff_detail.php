@@ -63,6 +63,7 @@ $consultant = $consultantA->getOne();
 </div>
 <div class="weui-cells__title hidden" style="auto;">新增优学顾问</div>
 <form action="" method="post">
+    <fieldset disabled>
     <input type="hidden" name="id" value="<?php echo $consultant->id;?>">
     <div class="weui-cells weui-cells_form">
         <div class="weui-cell">
@@ -84,16 +85,17 @@ $consultant = $consultantA->getOne();
                 <label class="weui-label">微信号</label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" name="wechat" type="wechat" value="<?php echo $consultant->wechat;?>" placeholder="请输入微信号">
+                <input class="weui-input" name="wechat" type="wechat" value="<?php echo $consultant->wechat;?>" >
             </div>
         </div>
 
         <div class="weui-btn-area">
-            <button class="weui-btn weui-btn_primary" type="submit" name="submit" href="javascript:" id="showTooltips">确定</button>
+<!--            <button class="weui-btn weui-btn_primary" type="submit" name="submit" href="javascript:" id="showTooltips">确定</button>-->
             <a class="weui-btn btn-primary" style="color: #FFF!important;" id="goBack" href="staff.php">返回</a>
-            <button class="weui-btn weui-btn_warn" id="del">删除</button>
+<!--            <button class="weui-btn weui-btn_warn" id="del">删除</button>-->
         </div>
     </div>
+    </fieldset>
 </form>
 <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

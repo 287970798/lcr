@@ -6,6 +6,7 @@
  * Time: 下午 2:04
  */
 session_start();
+//$_SESSION['apply_id'] = 3;
 require substr(dirname(__FILE__), 0, -6) . '/init.inc.php';
 Validate::checkSession('apply_id', WEB_PATH.'/login.php');
 $pointA = new PointAction();
@@ -123,7 +124,7 @@ $nav = 'point';
             <i class="fa fa-unlock"></i>
         </div>
         <p class="weui-grid__label">
-            可用积分 <?php echo $point->availablePoint;?>
+            可用积分 <span id="availablePoint"><?php echo $point->availablePoint;?></span>
         </p>
     </a>
     <a href="javascript:;" class="weui-grid">
@@ -137,7 +138,7 @@ $nav = 'point';
 </div>
 <!--////////////////////////-->
 <div class="container-fluid" style="background: #FFF;padding-bottom: 15px;padding-top: 15px;margin-bottom: 15px;border-bottom: 1px solid #d9d9d9;">
-    <a href="account.php" class="btn btn-success btn-lg center-block" style="width: 90%;background-color: #5eb9ff;border-color: #5eb9ff;"><i class="fa fa-money"></i> 积分兑换</a>
+    <a href="javascript:;" id="exchange" class="btn btn-success btn-lg center-block" style="width: 90%;background-color: #5eb9ff;border-color: #5eb9ff;"><i class="fa fa-money"></i> 积分兑换</a>
 </div>
 <!--////////////////////////-->
 <div class="weui-cells__title">积分明细</div>
@@ -181,5 +182,46 @@ if (!empty($streams)){
 ?>
 </div>
 <?php include ROOT_PATH.'/tabbar.php';?>
+<script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+<script>
+    $('#exchange').click(function () {
+        var data = {
+            'apply_id' : '<?=@$_SESSION['apply_id']?>'
+        };
+        $.ajax({
+            url : 'http://uniteedu.cn/work/public/lcr/exchange/checkAccountAndExchange',
+            type : 'get',
+            data : data
+        }).done(function (result) {
+            console.log(result);
+            if (result.code == 4004) {
+                location.href = 'http://uniteedu.cn/lcyx/lcr/point/account.php';
+            } else if (result.code == 4002) {
+                weui.toast(result.msg);
+            } else if (result.code == 2004) {
+                location.href = 'http://uniteedu.cn/lcyx/lcr/point/exchange.php';
+            }
+        }).fail(function (error) {
+            console.log(error.statusText);
+        });
+    });
+</script>
+<script>
+    //查询已消耗积分
+    var data = {
+        apply_id : <?=$_SESSION['apply_id'];?>
+    }
+    $.ajax({
+        url: "http://uniteedu.cn/work/public/lcr/exchange/exchangesum",
+        type: 'get',
+        data: data
+    }).done(function(result){
+        var availablePoint = <?= @$point->availablePoint;?> - parseInt(result);
+        $("#availablePoint").html(availablePoint);
+        console.log(result);
+    }).fail(function(err){
+        console.log(err);
+    });
+</script>
 </body>
 </html>

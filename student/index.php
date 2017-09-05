@@ -10,14 +10,17 @@
     if (!empty($students)) {
         foreach ($students as $student) {
             switch ($student->status){
-                case 0:
-                    $status0 ++;
-                    break;
+//                case 0:
+//                    $status0 ++;
+//                    break;
                 case 1:
                     $status1 ++;
                     break;
                 case 2:
                     $status2 ++;
+                    break;
+                default:
+                    $status0 ++;
             }
         }
     }
@@ -67,7 +70,7 @@
 </div>
 
 <!--//////////////////////////////////////////-->
-<div class="container-fluid" style="background: #FFF;padding-left: 0px;padding-right: 0px;">
+<div class="container-fluid hidden" style="background: #FFF;padding-left: 0px;padding-right: 0px;">
     <a href="images/2pointdetail.png"><img src="../images/2point.png" alt="" style="width: 100%;"></a>
     <!--
     <a href="http://uniteedu.cn/xmjz/item.php?id=13"><img src="http://uniteedu.cn/yxh/images/yxh_ui_qd.png" alt="" style="width: 100%;margin-bottom: 10px"></a>

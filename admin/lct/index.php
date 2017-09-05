@@ -22,6 +22,7 @@ $applyCount = $counsultantA->getSubApplysCount($_SESSION['agent']->id)->c;
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.0/weui.min.css">
     <script type="text/javascript" src="../../../../plug/weui/weui.min.js"></script>
     <link rel="stylesheet" href="<?php echo WEB_PATH?>/style/weui.reset.css">
+    <script src="https://cdn.bootcss.com/template_js/0.7.1/template.min.js"></script>
 </head>
 <body style="background: #eee">
 <header class="hidden">
@@ -119,30 +120,35 @@ $applyCount = $counsultantA->getSubApplysCount($_SESSION['agent']->id)->c;
 <!--/////////////////////////////////-->
 
 <div class="weui-cells__title"><span class="glyphicon glyphicon-list-alt"></span> 联创平台新闻公告 <a href="#" class="pull-right" style="color: #aaa;">查看全部 <i class="glyphicon glyphicon-chevron-right"></i></a></div>
+<style>
+    .gallery{
+
+    }
+</style>
 <div class="weui-cells">
-    <a class="weui-cell weui-cell_access" href="javascript:;" onclick="weui.dialog({title:'公告',content:'系统升级1.02版'});">
+    <a class="weui-cell weui-cell_access" href="javascript:;" data-toggle="modal" data-target="#kaiban">
         <div class="weui-cell__bd">
-            <p>【公告】系统升级1.02版</p>
+            <p>【新闻】青岛创优翼9.4青岛开班</p>
         </div>
-        <div class="weui-cell__ft">2017-07-06</div>
+        <div class="weui-cell__ft">2017-09-02</div>
     </a>
-    <a class="weui-cell weui-cell_access" href="javascript:;" onclick="weui.dialog({title:'新闻',content:'青岛创优翼正式开班'});">
+    <a class="weui-cell weui-cell_access" href="javascript:;"  data-toggle="modal" data-target="#agent30">
         <div class="weui-cell__bd">
-            <p>【新闻】青岛创优翼正式开班</p>
+            <p>【公告】联创团首批30团免费</p>
         </div>
-        <div class="weui-cell__ft">2017-07-04</div>
+        <div class="weui-cell__ft">2017-08-22</div>
     </a>
-    <a class="weui-cell weui-cell_access" href="javascript:;" onclick="weui.dialog({title:'公告',content:'UI设计师招生奖励政策'});">
+    <a class="weui-cell weui-cell_access" href="javascript:;" data-toggle="modal" data-target="#gengxin">
         <div class="weui-cell__bd">
-            <p>【公告】UI设计师招生奖励政策</p>
+            <p>【更新】手机营销推广功能更新介绍</p>
         </div>
-        <div class="weui-cell__ft">2017-07-02</div>
+        <div class="weui-cell__ft">2017-08-05</div>
     </a>
-    <a class="weui-cell weui-cell_access" href="javascript:;" onclick="weui.dialog({title:'公告',content:'系统升级1.01版'});">
+    <a class="weui-cell weui-cell_access" href="javascript:;"  data-toggle="modal" data-target="#agent">
         <div class="weui-cell__bd">
-            <p>【公告】系统升级1.01版</p>
+            <p>【公告】联创团招商加盟正式启动</p>
         </div>
-        <div class="weui-cell__ft">2017-07-01</div>
+        <div class="weui-cell__ft">2017-08-01</div>
     </a>
 
 </div>
@@ -251,9 +257,80 @@ $applyCount = $counsultantA->getSubApplysCount($_SESSION['agent']->id)->c;
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
-
+<!--模板渲染输出-->
+<div id="result"></div>
+<!--//模板渲染输出-->
+<!--模板片段-->
+<script id="tpl" type="text/html">
+<%for (var i in newsData) {%>
+<div class="modal fade" id="<%=newsData[i].id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"><%=newsData[i].title%></h4>
+            </div>
+            <div class="modal-body" style="padding-top: 0;">
+                <%if (newsData[i].topText){%>
+                <p><%:=newsData[i].topText%></p>
+                <%}%>
+                <%if (newsData[i].img){%>
+                    <img src="<%=newsData[i].img%>" class="img-responsive">
+                <%}%>
+                <%if (newsData[i].bottomText){%>
+                    <p><%=newsData[i].bottomText%></p>
+                <%}%>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<%}%>
+</script>
+<!--//模板片段-->
 <?php include_once ROOT_PATH."/tabbar.php"?>
+<script>
+    //模板数据
+    var newsData = {
+        agent30 : {
+            id : 'agent30',    // 模态框ID
+            title : '【公告】联创团首批30团免费', //标题
+            img : '<?=WEB_PATH . "/images/agent30.png"?>',   //图片URL
+            topText : '',   //文字内容
+            bottomText: ''
+        },
+        agent : {
+            id : 'agent',    // 模态框ID
+            title : '【公告】联创团招商加盟正式启动', //标题
+            img : '<?=WEB_PATH . "/../topic/agent/images/agent.png"?>',   //图片URL
+            topText : '',   //文字内容
+            bottomText: ''
+        },
+        kaiban : {
+            id : 'kaiban',    // 模态框ID
+            title : '开班详情', //标题
+            img : '<?=WEB_PATH . "/images/kaiban.png"?>',   //图片URL
+            topText : '',   //文字内容
+            bottomText: ''
+        },
+        gengxin : {
+            id : 'gengxin',    // 模态框ID
+            title : '功能更新', //标题
+            img : '<?=WEB_PATH . "/images/gengxin.gif"?>',   //图片URL
+            topText : '平台新增功能：<br>1.项目资料实时更新。<br>2.项目资料一键转发。',   //文字内容
+            bottomText: ''
+        }
+    };
+    template.config("escape", true);
+    //模板内容
+    var tpl = document.getElementById('tpl').innerHTML;
+    //渲染
+    var result = template(tpl, newsData);
+    //写入
+    document.getElementById('result').innerHTML = result;
+</script>
 <script type="text/javascript" src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>

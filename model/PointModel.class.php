@@ -28,6 +28,7 @@ class PointModel extends Model {
         return $this->$key;
     }
 
+
     //新增积分
     public function addPoint(){
         $sql = "INSERT INTO lcr_points 
@@ -133,7 +134,7 @@ class PointModel extends Model {
     //查询积分
     public function getPoint(){
         $sql = "SELECT
-                        SUM(IF(status = 0,point,0)) as unavailablePoint,
+                        SUM(IF(status <> 1 AND status <> 2,point,0)) as unavailablePoint,
                         SUM(IF(status = 1,point,0)) as availablePoint
                   FROM
                         lcr_points
